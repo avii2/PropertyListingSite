@@ -127,19 +127,17 @@ The landing page serves as the entry point to the application, allowing users to
 ---
 
 ## **Folder Structure**
-
 property-listing-app/
 ├── backend/
 │   ├── app.py              # Flask backend code
-│   ├── store/
-│       ├── data.json       # Property data file
-│   └── requirements.txt    # Backend dependencies
+│   └── store/
+│       └── data.json       # Property data file
 ├── public/                 # Public assets for React app
 │   ├── logo.svg            # App logo
 │   └── index.html          # Main HTML file for React app
 ├── src/
 │   ├── components/
-│   │   ├── PropertyModel.jsx         # Modal component for property details
+│   │   └── PropertyModel.jsx         # Modal component for property details
 │   ├── pages/
 │   │   ├── AddPropertyForm.jsx       # Form for adding new properties
 │   │   ├── AdminDashboard.jsx        # Admin dashboard component
@@ -157,9 +155,6 @@ property-listing-app/
 ├── package.json                      # Frontend dependencies and scripts
 ├── package-lock.json                 # Lockfile for npm dependencies
 └── README.md                         # Project documentation file (this file)
-
-
-
 
 ---
 
@@ -214,8 +209,6 @@ Admin Dashboard
 
 ## **Contact**
 
-For any queries or issues, feel free to reach out at [your-email@example.com](mailto:your-email@example.com).
+For any queries or issues, feel free to reach out at [your-email@example.com](mailto:anilkumarbarupal.01@example.com).
 
 --- 
-
-This Markdown file provides all necessary details about your project in an industry-standard format!
