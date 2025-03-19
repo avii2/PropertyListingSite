@@ -126,37 +126,6 @@ The landing page serves as the entry point to the application, allowing users to
 
 ---
 
-## **Folder Structure**
-property-listing-app/
-├── backend/
-│   ├── app.py              # Flask backend code
-│   └── store/
-│       └── data.json       # Property data file
-├── public/                 # Public assets for React app
-│   ├── logo.svg            # App logo
-│   └── index.html          # Main HTML file for React app
-├── src/
-│   ├── components/
-│   │   └── PropertyModel.jsx         # Modal component for property details
-│   ├── pages/
-│   │   ├── AddPropertyForm.jsx       # Form for adding new properties
-│   │   ├── AdminDashboard.jsx        # Admin dashboard component
-│   │   ├── ExploreProperties.jsx     # Customer property listing page
-│   │   ├── LandingPage.jsx           # Landing page component
-│   │   └── Login.jsx                 # Login page component (Customer/Admin login)
-│   ├── App.css                       # Global app-specific CSS styles
-│   ├── App.js                        # Entry point for React app with routing setup
-│   ├── App.test.js                   # Test cases for React app
-│   ├── index.css                     # Global CSS styles
-│   ├── index.js                      # React app bootstrap file
-│   ├── reportWebVitals.js            # Performance reporting file
-│   └── setupTests.js                 # Test setup file for Jest/React Testing Library
-├── .gitignore                        # Git ignore file to exclude unnecessary files from version control
-├── package.json                      # Frontend dependencies and scripts
-├── package-lock.json                 # Lockfile for npm dependencies
-└── README.md                         # Project documentation file (this file)
-
----
 
 ## **API Endpoints**
 
