@@ -178,6 +178,6 @@ Admin Dashboard
 
 ## **Contact**
 
-For any queries or issues, feel free to reach out at [your-email@example.com](mailto:anilkumarbarupal.01@example.com).
+For any queries or issues, feel free to reach out at [anilkumarbarupal.01@gmail.com](mailto:anilkumarbarupal.01@gmail.com).
 
 --- 
