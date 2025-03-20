@@ -128,14 +128,7 @@ const CustomerLogin = ({ darkMode }) => {
                       </motion.div>
                     </Form>
 
-                    <div className="text-center mt-4">
-                      <p>
-                        Don't have an account?{" "}
-                        <Link to="/customer-signup" className="signup-link">
-                          Sign up
-                        </Link>
-                      </p>
-                    </div>
+                    
                   </motion.div>
                 </Card.Body>
               </Card>

@@ -53,8 +53,10 @@ function App() {
     <Router>
       <div className={darkMode ? "dark-theme" : "light-theme"}>
         <Routes>
+          {/* Landing Page */}
           <Route path="/" element={<LandingPage darkMode={darkMode} />} />
 
+          {/* Customer Login */}
           <Route
             path="/customer-login"
             element={
@@ -66,6 +68,7 @@ function App() {
             }
           />
 
+          {/* Dealer/Admin Login */}
           <Route
             path="/dealer-login"
             element={
@@ -77,6 +80,7 @@ function App() {
             }
           />
 
+          {/* Explore Properties (Customer Only) */}
           <Route
             path="/explore"
             element={
@@ -89,6 +93,7 @@ function App() {
             }
           />
 
+          {/* Admin Dashboard */}
           <Route
             path="/admin/dashboard"
             element={
@@ -101,18 +106,27 @@ function App() {
             }
           />
 
+          {/* Add Property (Admin Only) */}
           <Route
             path="/admin/add-property"
             element={
               <ProtectedRoute allowedRoles={["Admin"]}>
-                <AddPropertyForm
-                  darkMode={darkMode}
-                  toggleDarkMode={toggleDarkMode}
-                />
+                <AddPropertyForm darkMode={darkMode} />
               </ProtectedRoute>
             }
           />
 
+          {/* Edit Property (Admin Only) */}
+          <Route
+            path="/admin/edit-property/:id"
+            element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <AddPropertyForm darkMode={darkMode} />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Redirect unknown routes to Landing Page */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

@@ -1,178 +1,228 @@
-import React from "react";
-import {
-  Form,
-  Input,
-  Button,
-  Card,
-  Row,
-  Col,
-  InputNumber,
-  Typography,
-} from "antd";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Form, Button, Container, Row, Col, Card, Spinner } from "react-bootstrap";
 import axios from "axios";
 
-const { Title } = Typography;
+const AddPropertyForm = ({ darkMode, editingPropertyId, onClose }) => {
+  const [property, setProperty] = useState({
+    name: "",
+    price: "",
+    location: "",
+    bedrooms: "",
+    bathrooms: "",
+    image_url: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [loadingProperty, setLoadingProperty] = useState(!!editingPropertyId);
 
-const AddPropertyForm = ({ darkMode }) => {
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
-  const [loading, setLoading] = React.useState(false);
-
-  const handleSubmit = async (values) => {
-    setLoading(true);
-    try {
-      await axios.post("http://localhost:5000/api/properties", values, {
-        withCredentials: true,
-      });
-      navigate("/admin/dashboard");
-    } catch (error) {
-      console.error("Error adding property:", error);
-    } finally {
-      setLoading(false);
+  // Fetch property details if editing
+  useEffect(() => {
+    if (editingPropertyId) {
+      setLoadingProperty(true);
+      axios.get(`http://localhost:5001/api/properties/${editingPropertyId}`)
+        .then((response) => {
+          setProperty(response.data);
+        })
+        .catch(() => {
+          setError("Failed to load property details.");
+        })
+        .finally(() => {
+          setLoadingProperty(false);
+        });
     }
+  }, [editingPropertyId]);
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProperty({
+      ...property,
+      [name]: name === "price" || name === "bedrooms" || name === "bathrooms" ? Number(value) : value
+    });
   };
 
+  // Handle form submission (add or edit)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const apiUrl = editingPropertyId 
+      ? `http://localhost:5001/api/properties/${editingPropertyId}` 
+      : `http://localhost:5001/api/properties`;
+
+    const method = editingPropertyId ? "PUT" : "POST";
+
+    axios({
+      method,
+      url: apiUrl,
+      data: property,
+    })
+      .then(() => {
+        const message = editingPropertyId 
+          ? `Property "${property.name}" has been updated successfully!` 
+          : `Property "${property.name}" has been added successfully!`;
+        onClose(true, message); // Pass true to indicate successful submission
+      })
+      .catch(() => {
+        setError("Failed to submit property. Please try again.");
+        setLoading(false);
+      });
+  };
+
+  // Handle close button
+  const handleCloseForm = () => {
+    onClose(false); // Pass false to indicate form was just closed, not submitted
+  };
+
+  if (loadingProperty) {
+    return (
+      <Container className="py-5 text-center">
+        <Spinner animation="border" variant="primary" />
+        <p className="mt-3">Loading property details...</p>
+      </Container>
+    );
+  }
+
   return (
-    <div className={darkMode ? "dark-theme" : "light-theme"}>
-      <div style={{ padding: "40px" }}>
-        <Card
-          title={<Title level={3}>Add New Property</Title>}
-          bordered={false}
-          className="form-card"
-        >
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={handleSubmit}
-            initialValues={{
-              bedrooms: 1,
-              bathrooms: 1,
-            }}
-          >
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  name="name"
-                  label="Property Name"
-                  rules={[
-                    { required: true, message: "Please enter property name" },
-                  ]}
-                >
-                  <Input placeholder="e.g. Luxury Villa" />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="location"
-                  label="Location"
-                  rules={[{ required: true, message: "Please enter location" }]}
-                >
-                  <Input placeholder="e.g. New York" />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Row gutter={16}>
-              <Col span={8}>
-                <Form.Item
-                  name="price"
-                  label="Price ($/month)"
-                  rules={[{ required: true, message: "Please enter price" }]}
-                >
-                  <InputNumber
-                    min={1}
-                    style={{ width: "100%" }}
-                    placeholder="e.g. 1500"
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="bedrooms"
-                  label="Bedrooms"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please enter number of bedrooms",
-                    },
-                  ]}
-                >
-                  <InputNumber min={0} style={{ width: "100%" }} />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="bathrooms"
-                  label="Bathrooms"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please enter number of bathrooms",
-                    },
-                  ]}
-                >
-                  <InputNumber min={0} style={{ width: "100%" }} />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Form.Item
-              name="image_url"
-              label="Image URL"
-              rules={[{ required: true, message: "Please enter image URL" }]}
-            >
-              <Input placeholder="e.g. https://images.unsplash.com/photo-1600596542815-ffad4c1539a9" />
-            </Form.Item>
-
-            <Form.List name="features">
-              {(fields, { add, remove }) => (
-                <>
-                  {fields.map((field, index) => (
-                    <div key={field.key}>
-                      <Form.Item
-                        name={field.name}
-                        label={`Feature ${index + 1}`}
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please enter feature or remove it",
-                          },
-                        ]}
-                      >
-                        <Input placeholder="e.g. Swimming Pool" />
-                      </Form.Item>
-                      <Button
-                        onClick={() => remove(field.name)}
-                        style={{ marginBottom: "20px" }}
-                      >
-                        Remove Feature
-                      </Button>
-                    </div>
-                  ))}
-                  <Form.Item>
-                    <Button type="dashed" onClick={() => add()} block>
-                      Add Feature
-                    </Button>
-                  </Form.Item>
-                </>
-              )}
-            </Form.List>
-
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={loading}
-                size="large"
+    <Container className="py-5">
+      <Row className="justify-content-center">
+        <Col md={8}>
+          <Card className={`shadow ${darkMode ? "bg-dark text-light" : ""}`}>
+            <Card.Header className={`d-flex justify-content-between align-items-center ${darkMode ? "bg-dark text-light" : "bg-primary text-white"}`}>
+              <h3 className="mb-0">{editingPropertyId ? "Edit Property" : "Add New Property"}</h3>
+              <Button 
+                variant={darkMode ? "outline-light" : "light"} 
+                onClick={handleCloseForm}
+                size="sm"
               >
-                Add Property
+                Close
               </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </div>
-    </div>
+            </Card.Header>
+            <Card.Body className="p-4">
+              {error && (
+                <div className="alert alert-danger text-center mb-4">{error}</div>
+              )}
+              <Form onSubmit={handleSubmit}>
+                {/* Property Name */}
+                <Form.Group className="mb-3">
+                  <Form.Label>Property Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="name"
+                    value={property.name}
+                    onChange={handleChange}
+                    placeholder="Enter property name"
+                    className={darkMode ? "bg-dark text-light border-secondary" : ""}
+                    required
+                  />
+                </Form.Group>
+
+                {/* Price and Location */}
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Price ($/month)</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="price"
+                        value={property.price}
+                        onChange={handleChange}
+                        placeholder="Enter monthly price"
+                        className={darkMode ? "bg-dark text-light border-secondary" : ""}
+                        min="1"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Location</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="location"
+                        value={property.location}
+                        onChange={handleChange}
+                        placeholder="Enter property location"
+                        className={darkMode ? "bg-dark text-light border-secondary" : ""}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                {/* Bedrooms and Bathrooms */}
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Bedrooms</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="bedrooms"
+                        value={property.bedrooms}
+                        onChange={handleChange}
+                        placeholder="Number of bedrooms"
+                        className={darkMode ? "bg-dark text-light border-secondary" : ""}
+                        min="0"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Bathrooms</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="bathrooms"
+                        value={property.bathrooms}
+                        onChange={handleChange}
+                        placeholder="Number of bathrooms"
+                        className={darkMode ? "bg-dark text-light border-secondary" : ""}
+                        min="0"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                {/* Image URL */}
+                <Form.Group className="mb-4">
+                  <Form.Label>Image URL</Form.Label>
+                  <Form.Control
+                    type="url"
+                    name="image_url"
+                    value={property.image_url}
+                    onChange={handleChange}
+                    placeholder="Enter image URL"
+                    className={darkMode ? "bg-dark text-light border-secondary" : ""}
+                  />
+                  <Form.Text className={darkMode ? "text-light" : "text-muted"}>
+                    Provide a direct URL to an image of the property.
+                  </Form.Text>
+                </Form.Group>
+
+                {/* Submit Button */}
+                <Button 
+                  variant={darkMode ? "outline-light" : "primary"} 
+                  type="submit" 
+                  disabled={loading} 
+                  className="w-100 py-2 mt-3"
+                >
+                  {loading ? (
+                    <>
+                      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                      {editingPropertyId ? "Updating Property..." : "Adding Property..."}
+                    </>
+                  ) : (
+                    editingPropertyId ? "Update Property" : "Add Property"
+                  )}
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

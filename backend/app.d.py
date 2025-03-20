@@ -88,6 +88,9 @@ def delete_property(id):
     
     return '', 204
 
+# Route to edit the property detail
+
+
 # Main entry point of the application
 if __name__ == '__main__':
     # Bind to PORT environment variable provided by Render, defaulting to 5000 locally

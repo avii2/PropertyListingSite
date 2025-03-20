@@ -21,6 +21,7 @@ import {
   FaBed,
   FaBath,
   FaMapMarkerAlt,
+  FaSignOutAlt
 } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ExploreProperties.css";
@@ -38,7 +39,7 @@ function ExploreProperties({ darkMode, toggleDarkMode }) {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("https://testbackend-8.onrender.com/api/properties")
+      .get("http://localhost:5001/api/properties")
       .then((res) => {
         setProperties(res.data);
         setFilteredProperties(res.data);
@@ -85,33 +86,46 @@ function ExploreProperties({ darkMode, toggleDarkMode }) {
 
   return (
     <div className={darkMode ? "dark-theme" : "light-theme"}>
-      <Navbar
-        bg={darkMode ? "dark" : "light"}
-        variant={darkMode ? "dark" : "light"}
-        expand="lg"
-        className="shadow-sm py-3"
-        style={{ padding: "0.8rem 1.5rem" }}
+    <Navbar
+  bg={darkMode ? "dark" : "light"}
+  variant={darkMode ? "dark" : "light"}
+  expand="lg"
+  className="shadow-sm py-3"
+  style={{ padding: "0.8rem 1.5rem" }}
+>
+  <Container>
+    <Navbar.Brand
+      href="/"
+      className="fw-bold"
+      style={{
+        fontFamily: "'Playfair Display', serif",
+        fontSize: "1.5rem",
+      }}
+    >
+      Premium Properties
+    </Navbar.Brand>
+    <div className="d-flex align-items-center">
+      <Button
+        variant={darkMode ? "light" : "dark"}
+        className="me-2"
+        onClick={toggleDarkMode}
       >
-        <Container>
-          <Navbar.Brand
-            href="/"
-            className="fw-bold"
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "1.5rem",
-            }}
-          >
-            Premium Properties
-          </Navbar.Brand>
-          <Button
-            variant={darkMode ? "light" : "dark"}
-            className="ms-auto"
-            onClick={toggleDarkMode}
-          >
-            {darkMode ? <FaSun /> : <FaMoon />}
-          </Button>
-        </Container>
-      </Navbar>
+        {darkMode ? <FaSun /> : <FaMoon />}
+      </Button>
+      <Button 
+        variant="outline-danger" 
+        onClick={() => {
+          localStorage.removeItem("isLoggedIn");
+          localStorage.removeItem("userRole");
+          window.location.href = "/";
+        }}
+      >
+        <FaSignOutAlt className="me-1" /> Logout
+      </Button>
+    </div>
+  </Container>
+</Navbar>
+
 
       <Container fluid className="py-5">
         <h1 className="text-center mb-5 fw-bold main-title">
