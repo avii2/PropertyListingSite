@@ -1,14 +1,17 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+from flask_cors import CORS  # Import CORS
 import json
 import os
+
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins="http://localhost:3000", methods=["GET", "POST", "PUT", "DELETE"], allow_headers=["Content-Type"])
+
+
+
 data_file_path = os.path.join(os.path.dirname(__file__), '../store/data.json')
 
 with open(data_file_path) as f:
     properties = json.load(f)
-
 
 FALLBACK_IMAGE = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"
 
@@ -25,7 +28,6 @@ def get_property(id):
     if not property:
         return jsonify({'error': 'Property not found'}), 404
     
-    # Ensure property has valid image URL
     if not property.get('image_url') or 'random' in property.get('image_url', ''):
         property['image_url'] = FALLBACK_IMAGE
     
@@ -70,4 +72,4 @@ def delete_property(id):
     return '', 204
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001, host="0.0.0.0")
