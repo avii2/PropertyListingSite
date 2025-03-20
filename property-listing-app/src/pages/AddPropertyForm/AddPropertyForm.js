@@ -19,7 +19,7 @@ const AddPropertyForm = ({ darkMode, editingPropertyId, onClose }) => {
   useEffect(() => {
     if (editingPropertyId) {
       setLoadingProperty(true);
-      axios.get(`http://localhost:5001/api/properties/${editingPropertyId}`)
+      axios.get(`https://propertylistingsitebackend.onrender.com/api/properties/${editingPropertyId}`)
         .then((response) => {
           setProperty(response.data);
         })
@@ -48,8 +48,8 @@ const AddPropertyForm = ({ darkMode, editingPropertyId, onClose }) => {
     setError("");
 
     const apiUrl = editingPropertyId 
-      ? `http://localhost:5001/api/properties/${editingPropertyId}` 
-      : `http://localhost:5001/api/properties`;
+      ? `https://propertylistingsitebackend.onrender.com/api/properties/${editingPropertyId}` 
+      : `https://propertylistingsitebackend.onrender.com/api/properties`;
 
     const method = editingPropertyId ? "PUT" : "POST";
 

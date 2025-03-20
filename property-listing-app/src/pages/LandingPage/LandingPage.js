@@ -6,7 +6,7 @@ import "./LandingPage.css";
 
 const LandingPage = ({ darkMode }) => {
   return (
-    <div className={`landing-page ${darkMode ? "dark-theme" : ""}`}>
+    <div style={{"padding":"5px"}}className={`landing-page ${darkMode ? "dark-theme" : ""}`}>
       <div className="hero-section">
         <Container>
           <Row className="align-items-center min-vh-100">

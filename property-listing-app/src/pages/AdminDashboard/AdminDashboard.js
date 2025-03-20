@@ -17,7 +17,7 @@ const AdminDashboard = ({ darkMode, toggleDarkMode }) => {
 
   // Fetch properties from API
   const fetchProperties = () => {
-    fetch("http://localhost:5001/api/properties")
+    fetch("https://propertylistingsitebackend.onrender.com/api/properties")
       .then((response) => response.json())
       .then((data) => {
         setProperties(data);
@@ -50,7 +50,7 @@ const AdminDashboard = ({ darkMode, toggleDarkMode }) => {
   const confirmDeleteProperty = () => {
     if (!propertyToDelete) return;
     
-    fetch(`http://localhost:5001/api/properties/${propertyToDelete.id}`, {
+    fetch(`https://propertylistingsitebackend.onrender.com/api/properties/${propertyToDelete.id}`, {
       method: "DELETE",
     })
       .then((response) => {

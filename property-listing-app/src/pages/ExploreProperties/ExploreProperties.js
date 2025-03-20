@@ -39,7 +39,7 @@ function ExploreProperties({ darkMode, toggleDarkMode }) {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5001/api/properties")
+      .get("https://propertylistingsitebackend.onrender.com/api/properties")
       .then((res) => {
         setProperties(res.data);
         setFilteredProperties(res.data);
@@ -86,7 +86,7 @@ function ExploreProperties({ darkMode, toggleDarkMode }) {
 
   return (
     <div className={darkMode ? "dark-theme" : "light-theme"}>
-    <Navbar
+      <Navbar
   bg={darkMode ? "dark" : "light"}
   variant={darkMode ? "dark" : "light"}
   expand="lg"
