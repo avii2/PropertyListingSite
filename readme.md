@@ -1,42 +1,45 @@
-# **Property Listing Web Application**
+## Overview
+This project is a full-stack web application for listing and exploring premium properties with two user types: **Customers** and **Admins**. Customers can view properties, add them to favorites, and explore listings. Admins can perform CRUD operations (Create, Read, Update, Delete) on properties through a secure dashboard, with changes reflected in real-time.
 
-## **Overview**
-This project is a full-stack web application for listing and exploring premium properties. It provides two types of users: **Customers** and **Admins**. Customers can view properties, add them to favorites, and explore listings. Admins can manage properties by adding, editing, or deleting them through a secure dashboard.
+## Tech Stack
 
----
-
-## **Tech Stack**
-
-### **Frontend**
+### Frontend
 - **React.js**: Used for building the user interface.
 - **React-Bootstrap**: Provides responsive styling components.
 - **Framer Motion**: Adds animations to enhance user experience.
 - **React-Router-DOM**: Handles routing between pages.
 
-### **Backend**
+### Backend
 - **Flask (Python)**: Serves as the backend API framework.
 - **Flask-CORS**: Enables cross-origin requests between frontend and backend.
 - **Flask-Login**: Handles user authentication and session management.
 - **Flask-Bcrypt**: Used for hashing passwords securely.
 
-### **Data Storage**
-- **JSON Files**: Stores property and user data for simplicity.
+### Data Storage
+- **SQLite**: Relational database for storing property and user data.
 
----
+### Deployment
+- **Backend**: Hosted on Render
+- **Frontend**: Hosted on Netlify
 
-## **Features**
+## Features
 
-### **Customer Features**
+### Customer Features
 1. View property listings with detailed information.
 2. Search properties by name or location.
 3. Filter properties by price range using a slider.
 4. Add properties to favorites for easy access later.
 
-### **Admin Features**
+### Admin Features
 1. Access a secure dashboard to manage properties.
 2. Add new properties via an elegant form.
 3. Edit existing property details.
 4. Delete properties from the system.
+5. Real-time updates: Changes made by admin are immediately visible to users after refreshing.
+
+### Authentication
+1. Login functionality for both customers and admins.
+2. Signup functionality to create new accounts.
 
 ### **Authentication**
 1. Login functionality for both customers and admins.
@@ -131,12 +134,41 @@ The landing page serves as the entry point to the application, allowing users to
 
 ### Backend API Routes
 
-#### Properties:
-1. `GET /api/properties`: Fetch all properties.
-2. `GET /api/properties/:id`: Fetch details of a specific property by ID.
-3. `POST /api/properties`: Add a new property (Admin only).
-4. `PUT /api/properties/:id`: Update an existing property (Admin only).
-5. `DELETE /api/properties/:id`: Delete a property (Admin only).
+## API Endpoints
+
+### Properties
+
+#### Get All Properties
+- **Endpoint**: `/api/properties`
+- **Method**: GET
+- **Description**: Fetches all properties. If a property's image_url is missing or contains "random", a fallback image URL is used.
+
+#### Get Specific Property
+- **Endpoint**: `/api/properties/<int:id>`
+- **Method**: GET
+- **Description**: Fetches details of a specific property by ID. If the property's image_url is missing or contains "random", a fallback image URL is used.
+
+#### Create New Property
+- **Endpoint**: `/api/properties`
+- **Method**: POST
+- **Description**: Creates a new property. Requires fields: name, price, location, bedrooms, bathrooms. Uses a fallback image URL if image_url is not provided.
+
+#### Update Property
+- **Endpoint**: `/api/properties/<int:id>`
+- **Method**: PUT
+- **Description**: Updates an existing property by ID. Updates fields: name, price, location, bedrooms, bathrooms, image_url. Uses a fallback image URL if image_url is not provided.
+
+#### Delete Property
+- **Endpoint**: `/api/properties/<int:id>`
+- **Method**: DELETE
+- **Description**: Deletes a property by ID. Returns a 404 error if the property is not found.
+
+### Notes
+- The API uses SQLite as the database.
+- CORS is enabled for cross-origin requests.
+- A fallback image URL is used when property images are missing or invalid.
+- The server runs on port 5001 and is accessible from any IP address (0.0.0.0).
+
 
 #### Authentication:
 1. `POST /api/login`: Log in as customer or admin.
@@ -147,25 +179,7 @@ The landing page serves as the entry point to the application, allowing users to
 
 ---
 
-## **Screenshots**
 
-### Landing Page:
-Landing Page
-
-### Customer Login Page:
-Customer Login
-
-### Admin Dashboard:
-Admin Dashboard
-
----
-
-## **Known Issues**
-
-1. Images with random Unsplash URLs fail to load due to outdated API endpoints.
-2. Ensure that `data.json` contains direct image URLs to avoid loading errors.
-
----
 
 ## **Future Improvements**
 
