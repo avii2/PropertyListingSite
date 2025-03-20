@@ -60,6 +60,8 @@ For testing purposes, you can use the following credentials:
 - Password: `password`
 
 ---
+## **Live Link**
+https://property-listing-frontend.netlify.app/
 
 ## **Installation Instructions**
 
