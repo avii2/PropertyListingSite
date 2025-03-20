@@ -93,8 +93,5 @@ def delete_property(id):
 
 # Main entry point of the application
 if __name__ == '__main__':
-    # Bind to PORT environment variable provided by Render, defaulting to 5000 locally
-    port = int(os.environ.get('PORT', 5000))
-    
-    # Run the app on host='0.0.0.0' and the specified port
-    app.run(host='0.0.0.0', port=port, debug=True)
+    port = int(os.environ.get('PORT', 8000))
+    app.run(host='0.0.0.0', port=port, debug=False)
