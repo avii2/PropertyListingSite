@@ -1,6 +1,7 @@
 ## Overview
 This project is a full-stack web application for listing and exploring premium properties with two user types: **Customers** and **Admins**. Customers can view properties, add them to favorites, and explore listings. Admins can perform CRUD operations (Create, Read, Update, Delete) on properties through a secure dashboard, with changes reflected in real-time.
-## Live Demo
+## Live Site Link  
+- https://property-listing-frontend.netlify.app/ 
 
 ## **Credentials**
 
