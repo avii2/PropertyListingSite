@@ -73,7 +73,7 @@ Follow these steps to set up the project locally:
 
 ### Prerequisites
 Ensure you have the following installed:
-1. Node.js (for running the frontend)
+1. React.js (for running the frontend)
 2. Python (for running the backend)
 3. npm or yarn (for managing frontend dependencies)
 
