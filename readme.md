@@ -23,16 +23,11 @@ For testing purposes, you can use the following credentials:
 ## Tech Stack
 
 ### Frontend
-- **React.js**: Used for building the user interface.
-- **React-Bootstrap**: Provides responsive styling components.
-- **Framer Motion**: Adds animations to enhance user experience.
-- **React-Router-DOM**: Handles routing between pages.
+- **React.js**
+
 
 ### Backend
-- **Flask (Python)**: Serves as the backend API framework.
-- **Flask-CORS**: Enables cross-origin requests between frontend and backend.
-- **Flask-Login**: Handles user authentication and session management.
-- **Flask-Bcrypt**: Used for hashing passwords securely.
+- **Python & Fast API**
 
 ### Data Storage
 - **SQLite**: Relational database for storing property and user data.
